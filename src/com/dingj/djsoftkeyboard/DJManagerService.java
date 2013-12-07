@@ -1,5 +1,7 @@
 package com.dingj.djsoftkeyboard;
 
+import com.dingj.djsoftkeyboard.test.TestIni;
+
 import jding.debug.JDingDebug;
 import android.app.KeyguardManager;
 import android.content.Context;
@@ -27,6 +29,8 @@ public class DJManagerService extends InputMethodService
 	{
 		super.onCreate();
 		mKeyBoardControl = new KeyBoardControl(this, getCurrentInputConnection());
+		TestIni testIni = new TestIni(this);
+		testIni.init();
 	}
 
 	/**

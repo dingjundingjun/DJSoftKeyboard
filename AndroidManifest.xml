@@ -14,13 +14,13 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <service 
-            android:name=".SoftInputService"
+            android:name=".DJManagerService"
             android:permission="android.permission.BIND_INPUT_METHOD"
             >
             <intent-filter>
                  <action android:name="android.view.InputMethod"/>       
             </intent-filter>
-            <!-- <meta-data android:name="android.view.im" android:resource="@xml/method" /> -->
+            <meta-data android:name="android.view.im" android:resource="@xml/method" />
         </service>
     </application>
 

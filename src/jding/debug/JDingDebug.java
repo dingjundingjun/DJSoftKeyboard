@@ -22,4 +22,22 @@ public class JDingDebug
 		if(debug == true)
 			System.out.println(p);
 	}
+	
+	/**
+	 * 打印类名和行号字符串
+	 * @param str
+	 * @return
+	 */
+	private static String printfclassLineStr( String str )
+	{
+		StringBuffer strBuffer = new StringBuffer( );
+		StackTraceElement[] mStackTrace = new Throwable( ).getStackTrace( );
+		
+		strBuffer.append( str );
+		strBuffer.append( "，File:" + mStackTrace[2].getFileName( ) );
+		strBuffer.append( "，line:" + mStackTrace[2].getLineNumber( ) );
+		strBuffer.append( "，Method:" + mStackTrace[2].getMethodName( ) );
+		
+		return strBuffer.toString( );
+	}
 }

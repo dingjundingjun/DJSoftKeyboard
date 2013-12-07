@@ -24,4 +24,9 @@ public class Util
 		}
 		return true;
 	}
+	
+	/**各个键盘对应的路径*/
+	public static String KeyBoardIniFiles[] = {"en_26.ini"};
+	/**英文26键盘index*/
+	public static int KEYBOARD_TYPE_ENGLISH26 = 0;    
 }

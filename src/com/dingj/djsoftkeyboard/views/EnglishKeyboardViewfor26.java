@@ -1,5 +1,7 @@
 package com.dingj.djsoftkeyboard.views;
 
+import com.dingj.djsoftkeyboard.util.Util;
+
 import android.content.Context;
 import android.util.AttributeSet;
 
@@ -10,8 +12,25 @@ import android.util.AttributeSet;
  */
 public class EnglishKeyboardViewfor26 extends KeyBoardInputView
 {
+	
 	public EnglishKeyboardViewfor26(Context context, AttributeSet attrs) 
 	{
 		super(context, attrs);
 	}
+
+	public EnglishKeyboardViewfor26(Context context)
+	{
+		super(context);
+		initKeyBoardView(Util.KEYBOARD_TYPE_ENGLISH26);
+		createKeyBoardView();
+	}
+
+	@Override
+	public void createKeyBoardView()
+	{
+		super.createKeyBoardView();
+		
+	}
+	
+	
 }

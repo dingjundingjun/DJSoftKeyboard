@@ -10,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
+import com.dingj.djsoftkeyboard.views.EnglishKeyboardViewfor26;
 import com.dingj.djsoftkeyboard.views.KeyBoardInputView;
-import com.jding.softinput.activity.eebbkDragViews.OnViewChangeListener;
 
 /**
  * KeyboardControl
@@ -30,6 +30,7 @@ public class KeyBoardControl
 	{
 		mContext = c;
 		mInputConnection = ic;
+		mKeyBoardInputView = new EnglishKeyboardViewfor26(mContext);    //第一次初始化默认加载英文26键盘
 	}
 	
 	/**
@@ -42,5 +43,6 @@ public class KeyBoardControl
 		{
 			return mKeyBoardInputView;
 		}
+		return null;
 	}
 }
