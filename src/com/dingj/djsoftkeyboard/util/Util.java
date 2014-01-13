@@ -1,7 +1,14 @@
 package com.dingj.djsoftkeyboard.util;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import jding.debug.JDingDebug;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
 
 /**
  * 工具类
@@ -10,6 +17,12 @@ import android.content.res.Configuration;
  */
 public class Util 
 {
+	/**屏幕宽度*/
+	public static int DISPLAY_WIDTH;
+	/**屏幕高度*/
+	public static int DISPLAY_HEIGHT;
+	/**主题文件名称*/
+	public static String THEME = "themes.ini";
 	/**
 	 * 判断是横屏还是竖屏
 	 * @param context
@@ -23,6 +36,52 @@ public class Util
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * 获取屏幕分辨率
+	 * @param context
+	 */
+	public static void getDisplaySize(Context context)
+	{
+		Display display = ((WindowManager)context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		DISPLAY_WIDTH = display.getWidth();
+		DISPLAY_HEIGHT = display.getHeight();
+		JDingDebug.printfD("Util", "w=" + DISPLAY_WIDTH + " h=" + DISPLAY_HEIGHT);
+	}
+	
+	/**
+	 * 分割出字符串
+	 * @return
+	 */
+	public static String[] getSplit(String str,String sp)
+	{
+		String[] rString = str.split(sp);
+		return rString;
+	}
+	
+	public static IniEditor openAssetPortInit(Context context,String name)
+	{
+		IniEditor iniEditor = new IniEditor();
+		InputStream is = null;
+		try
+		{
+			is = context.getResources().getAssets().open("port/" + name);
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		if(is != null)
+		{
+			try
+			{
+				iniEditor.load(is);
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return iniEditor;
 	}
 	
 	/**各个键盘对应的路径*/

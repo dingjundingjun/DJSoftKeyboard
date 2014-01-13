@@ -1,12 +1,15 @@
 package com.dingj.djsoftkeyboard;
 
 import com.dingj.djsoftkeyboard.test.TestIni;
+import com.dingj.djsoftkeyboard.util.Util;
+import com.dingj.djsoftkeyboard.views.DragViews;
 
 import jding.debug.JDingDebug;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.inputmethodservice.InputMethodService;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -17,6 +20,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 
 public class DJManagerService extends InputMethodService
 {
@@ -28,9 +33,8 @@ public class DJManagerService extends InputMethodService
 	public void onCreate()
 	{
 		super.onCreate();
+		Util.getDisplaySize(this);
 		mKeyBoardControl = new KeyBoardControl(this, getCurrentInputConnection());
-		TestIni testIni = new TestIni(this);
-		testIni.init();
 	}
 
 	/**
@@ -64,6 +68,11 @@ public class DJManagerService extends InputMethodService
 			JDingDebug.printfD(TAG, "onCreateInputView");
 		}
 		return mKeyBoardControl.getInputView();
+//		DragViews dragViews = new DragViews(this);
+//		RelativeLayout.LayoutParams param = new LayoutParams(768, 700);
+//		param.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//		dragViews.addView(mKeyBoardControl.getInputView(),param);
+//		return dragViews;
 	}
 	
 	@Override
@@ -83,6 +92,8 @@ public class DJManagerService extends InputMethodService
 		{
 			JDingDebug.printfD(TAG, "onStartInputView");
 		}
+/*		TestIni testIni = new TestIni(this);
+		testIni.init();*/
 		super.onStartInputView(info, restarting);
 	}
 	
@@ -92,4 +103,6 @@ public class DJManagerService extends InputMethodService
 		// TODO Auto-generated method stub
 		super.onConfigurationChanged(newConfig);
 	}
+	
+	
 }

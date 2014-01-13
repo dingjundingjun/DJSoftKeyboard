@@ -10,27 +10,11 @@ import android.util.AttributeSet;
  * @author dingj
  *
  */
-public class EnglishKeyboardViewfor26 extends KeyBoardInputView
+public class EnglishKeyboardViewfor26 extends KeyBoardView
 {
-	
-	public EnglishKeyboardViewfor26(Context context, AttributeSet attrs) 
-	{
-		super(context, attrs);
-	}
 
-	public EnglishKeyboardViewfor26(Context context)
+	public EnglishKeyboardViewfor26(Context context, int type)
 	{
-		super(context);
-		initKeyBoardView(Util.KEYBOARD_TYPE_ENGLISH26);
-		createKeyBoardView();
+		super(context, type);
 	}
-
-	@Override
-	public void createKeyBoardView()
-	{
-		super.createKeyBoardView();
-		
-	}
-	
-	
 }
