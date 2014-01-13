@@ -11,6 +11,7 @@ import jding.debug.JDingDebug;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 /**
@@ -62,8 +63,9 @@ public class KeyBoardView extends RelativeLayout
 			ROWS=ROW1,ROW2,ROW3,ROW4*/
 	private final String OPTION_BG_IMAGE = "bg_image";
 	private final String OPTION_ROWS = "rows";
-	
-	
+	private final String V_OFFSET = "v_offset";
+	private final String H_OFFSET = "h_offset";
+	private final String KEYS = "keys";
 	public KeyBoardView(Context context)
 	{
 		super(context);
@@ -94,6 +96,7 @@ public class KeyBoardView extends RelativeLayout
 	{
 		List<String> sectionList = mIniEditor.sectionNames();
 		int sectionLen = sectionList.size();
+		int k = 0;    //row的数量
 		for(int i = 0;i < sectionLen;i++)
 		{
 			String tempSection = sectionList.get(i);
@@ -107,6 +110,16 @@ public class KeyBoardView extends RelativeLayout
 				{
 					parseSectionKeyBoard(tempOption);
 				}
+				else if(k < mRow.length && tempSection.equals(mRow[k]))
+				{
+					parseRows(mRow[k]);
+					k++;
+				}
+				if(bDebug)
+				{
+					if(mRow != null && k < mRow.length)
+					JDingDebug.printfD(TAG, "mRow[k]" + mRow[k]);
+				}
 				if(bDebug)
 				{
 					JDingDebug.printfD(TAG, "section=>" + tempSection + " option=>" + tempOption + " key=>" + mIniEditor.get(tempSection, tempOption));
@@ -114,6 +127,53 @@ public class KeyBoardView extends RelativeLayout
 			}
 		}
 		initMainView();
+	}
+	
+	/**
+	 * 解析rows
+	 * @param row
+	 */
+	private void parseRows(String row)
+	{
+//		V_OFFSET=0.2441
+//		H_OFFSET=0.0605
+//		KEYS=Key_A,Key_S_EN,Key_D,Key_F,Key_G,Key_H_EN,Key_J_EN,Key_K,Key_L_EN
+		float v_offset;
+		float h_offset;
+		String vStr = mIniEditor.get(row, V_OFFSET);
+		String hStr = mIniEditor.get(row, H_OFFSET);
+		if(vStr == null)
+		{
+			v_offset = 0;
+		}
+		else
+		{
+			v_offset = Float.parseFloat(vStr);
+		}
+		h_offset = Float.parseFloat(hStr);
+		String keys[] = Util.getSplit(mIniEditor.get(row, KEYS), ",");    //要根据这三个数据去生成一行按钮。。。
+		addOneRow(v_offset,h_offset,keys);
+	}
+	
+	/**
+	 * 生成一行按键
+	 * @param v_offset
+	 * @param h_offset
+	 * @param keys
+	 */
+	private void addOneRow(float v_offset,float h_offset,String keys[])
+	{
+		LinearLayout oneRowLayout = new LinearLayout(mContext);
+		oneRowLayout.setBackgroundColor(Color.GREEN);
+		int v = (int) (v_offset * mHeight);
+		int h = (int) (h_offset*mWidth);
+		if(DEBUG)
+		{
+			JDingDebug.printfD(TAG, "v:" + v + " h:" + h);
+		}
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+		params.setMargins(h, v, h, 0);
+		this.addView(oneRowLayout,params);
 	}
 	
 	/**
@@ -140,11 +200,11 @@ public class KeyBoardView extends RelativeLayout
 		}
 		else if(option.equals(OPTION_W))
 		{
-			mWidth =  Float.parseFloat(mIniEditor.get(SECTION_KeyBoard, option));
+			mWidth =  Float.parseFloat(mIniEditor.get(SECTION_KeyBoard, option)) * Util.DISPLAY_WIDTH;
 		}
 		else if(option.equals(OPTION_H))
 		{
-			mHeight = Float.parseFloat(mIniEditor.get(SECTION_KeyBoard, option));
+			mHeight = Float.parseFloat(mIniEditor.get(SECTION_KeyBoard, option)) * Util.DISPLAY_HEIGHT * mHeight;
 		}
 		else if(option.equals(OPTION_BG_IMAGE))
 		{
@@ -163,8 +223,8 @@ public class KeyBoardView extends RelativeLayout
 			JDingDebug.printfD(TAG, "mWidth=" + mWidth + " height=" + mHeight);
 		}
 		/**先做转换*/
-		mWidth = Util.DISPLAY_WIDTH * mWidth;
-		mHeight = Util.DISPLAY_HEIGHT * mHeight;
+//		mWidth = Util.DISPLAY_WIDTH * mWidth;
+//		mHeight = Util.DISPLAY_HEIGHT * mHeight;
 		mPaddingTop *= mHeight;
 		mPaddingBottom *= mHeight;
 		mPaddingLeft *= mWidth;
@@ -176,8 +236,8 @@ public class KeyBoardView extends RelativeLayout
 		}
 		mParams.width = (int) mWidth;
 		mParams.height = (int) mHeight;
+		mParams.setMargins((int)mPaddingLeft, (int)mPaddingTop, (int)mPaddingRight, (int)mPaddingBottom);
 		this.setBackgroundColor(Color.RED);
-		mParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		this.setLayoutParams(mParams);
 	}
 	

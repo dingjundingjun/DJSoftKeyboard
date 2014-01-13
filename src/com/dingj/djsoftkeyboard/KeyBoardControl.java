@@ -8,6 +8,8 @@ import jding.debug.JDingDebug;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Debug;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,7 +52,7 @@ public class KeyBoardControl
 	private int mLayoutH;
 	/**背景图片*/
 	private String mBGName;
-	/*****************常量***************************88*/
+	/*****************常量****************************/
 	/**竖屏布局*/
 	private final String LAYOUT_PORT = "layout_port";
 	/**宽*/
@@ -64,11 +66,6 @@ public class KeyBoardControl
 		mContext = c;
 		mInputConnection = ic;
 		init();
-		
-//		DragViews dragViews = new DragViews(this);
-//		RelativeLayout.LayoutParams param = new LayoutParams(768, 700);
-//		param.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//		dragViews.addView(mKeyBoardControl.getInputView(),param);
 	}
 	
 	private void init()
@@ -103,6 +100,9 @@ public class KeyBoardControl
 		return null;
 	}
 	
+	/**
+	 * 初始化主题
+	 */
 	private void initTheme()
 	{
 		if(!Util.isLandScape(mContext))
@@ -132,15 +132,25 @@ public class KeyBoardControl
 					}
 					else if(tempOption.equals(BG_IMAGE))
 					{
-						mBGName = mIniEditor.get(BG_IMAGE, tempOption);
+						mBGName = mIniEditor.get(LAYOUT_PORT, tempOption);
 					}
 				}
 			}
 		}
 		if(DEBUG)
 		{
-			JDingDebug.printfD(TAG, "mLayoutW:" + mLayoutW + " mLayoutH:" + mLayoutH);
+			JDingDebug.printfD(TAG, "mLayoutW:" + mLayoutW + " mLayoutH:" + mLayoutH + " mBGName:" + mBGName);
 		}
+		setAssetBGImage(mBGName);
 	}
 	
+	/**
+	 * 设置主框背景
+	 * @param image
+	 */
+	private void setAssetBGImage(String image)
+	{
+		BitmapDrawable drawable = Util.openAssetImage(mContext, image);
+		mMainFrame.setBackground(drawable);
+	}
 }

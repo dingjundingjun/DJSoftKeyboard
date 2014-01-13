@@ -6,7 +6,9 @@ import java.io.InputStream;
 import jding.debug.JDingDebug;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.util.DisplayMetrics;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -60,6 +62,12 @@ public class Util
 		return rString;
 	}
 	
+	/**
+	 * 从asset中打开ini文件
+	 * @param context
+	 * @param name
+	 * @return
+	 */
 	public static IniEditor openAssetPortInit(Context context,String name)
 	{
 		IniEditor iniEditor = new IniEditor();
@@ -82,6 +90,28 @@ public class Util
 			}
 		}
 		return iniEditor;
+	}
+	
+	/**
+	 * 从asset中打开图片
+	 * @param context
+	 * @param name
+	 * @return
+	 */
+	public static BitmapDrawable openAssetImage(Context context,String name)
+	{
+		InputStream bitmapStream = null;
+		try
+		{
+			bitmapStream = context.getResources().getAssets().open("res/" + name);
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		if(bitmapStream != null)
+			return (BitmapDrawable) BitmapDrawable.createFromStream(bitmapStream, name);
+		return null;
 	}
 	
 	/**各个键盘对应的路径*/
