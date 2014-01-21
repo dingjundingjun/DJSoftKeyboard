@@ -114,6 +114,21 @@ public class Util
 		return null;
 	}
 	
+	public static Bitmap openAssetImageForBitmap(Context context,String name)
+	{
+		InputStream bitmapStream = null;
+		try
+		{
+			bitmapStream = context.getResources().getAssets().open("res/" + name);
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		if(bitmapStream != null)
+			return BitmapFactory.decodeStream(bitmapStream);;
+		return null;
+	}
+	
 	/**各个键盘对应的路径*/
 	public static String KeyBoardIniFiles[] = {"en_26.ini"};
 	/**英文26键盘index*/

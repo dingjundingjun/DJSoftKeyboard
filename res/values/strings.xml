@@ -5,4 +5,13 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
 	<string name="bg_image">bg.png</string>
+	<string name="width">W</string>
+	<string name="height">H</string>
+	<string name="key_bg_image">BG_IMAGES</string>
+	<string name="key">Key</string>
+	<string name="h_offset">H_offset</string>
+	<string name="v_offset">V_offset</string>
+	<string name="row_keys">Keys</string>
+	<string name="h_gap_qwerty">H_GAP_QWERTY</string>
+	<string name="s_keys">S_KEYS</string>
 </resources>

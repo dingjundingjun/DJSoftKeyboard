@@ -588,7 +588,7 @@ public class IniEditor {
      */
     private String normSection(String name) {
         if (!this.isCaseSensitive) {
-            name = name.toLowerCase();
+//            name = name.toLowerCase();
         }
         return name.trim();
     }
@@ -991,7 +991,7 @@ public class IniEditor {
          */
         private String normOption(String name) {
             if (!this.isCaseSensitive) {
-                name = name.toLowerCase();
+//                name = name.toLowerCase();
             }
             return name.trim();
         }

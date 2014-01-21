@@ -1,18 +1,19 @@
 package com.dingj.djsoftkeyboard.views;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
-import com.dingj.djsoftkeyboard.util.IniEditor;
-import com.dingj.djsoftkeyboard.util.Util;
-
 import jding.debug.JDingDebug;
-
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import com.dingj.djsoftkeyboard.Key;
+import com.dingj.djsoftkeyboard.KeyBoard;
+import com.dingj.djsoftkeyboard.util.IniEditor;
+import com.dingj.djsoftkeyboard.util.Util;
 
 /**
  * 根据类型去生成对应的键盘布局
@@ -48,11 +49,15 @@ public class KeyBoardView extends RelativeLayout
 	private String mRow[];
 	/**界面属性*/
 	private LayoutParams mParams;
+	/**键盘类*/
+	private KeyBoard mKeyBoard;
+	/**按键列表*/
+	private List<Key> mKeyList;
 	/**======================和子布局相关===============================*/
 	
 	/**======================常量===================================*/
 	/**键盘大小，位置，按键背景*/
-	private final String SECTION_KeyBoard = "keyboard";
+	private final String SECTION_KeyBoard = "KeyBoard";
 	private final String OPTION_PaddingTop = "paddingTop";
 	private final String OPTION_PaddingLeft = "paddingLeft";
 	private final String OPTION_PaddingRight = "paddingRight";
@@ -112,7 +117,7 @@ public class KeyBoardView extends RelativeLayout
 				}
 				else if(k < mRow.length && tempSection.equals(mRow[k]))
 				{
-					parseRows(mRow[k]);
+//					parseRows(mRow[k]);
 					k++;
 				}
 				if(bDebug)
@@ -127,6 +132,9 @@ public class KeyBoardView extends RelativeLayout
 			}
 		}
 		initMainView();
+		mKeyBoard = new KeyBoard(mIniEditor,mContext,(int)mWidth,(int)mHeight,mRow.length);
+		mKeyBoard.parse();
+		mKeyList = mKeyBoard.getKeyList();
 	}
 	
 	/**
@@ -171,7 +179,12 @@ public class KeyBoardView extends RelativeLayout
 		{
 			JDingDebug.printfD(TAG, "v:" + v + " h:" + h);
 		}
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+		//根据keys生成按钮
+		for(int i = 0;i < keys.length;i++)
+		{
+			
+		}
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 		params.setMargins(h, v, h, 0);
 		this.addView(oneRowLayout,params);
 	}
@@ -257,6 +270,20 @@ public class KeyBoardView extends RelativeLayout
 	public int getViewWidth()
 	{
 		return (int) mWidth;
+	}
+
+	@Override
+	protected void onDraw(Canvas canvas)
+	{
+		super.onDraw(canvas);
+		int length = mKeyList.size();
+		int index = 0;
+		Bitmap bmpQwerty = Util.openAssetImageForBitmap(mContext, "key_qwerty.png");
+		for(int i = 0;i < length;i++)
+		{
+			Key tempKey = mKeyList.get(index);
+			canvas.drawBitmap(bmpQwerty, tempKey.get, top, paint)
+		}
 	}
 	
 	
